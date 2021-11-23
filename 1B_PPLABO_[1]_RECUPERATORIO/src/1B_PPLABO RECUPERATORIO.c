@@ -32,7 +32,7 @@
 	agregada en el item anterior.
 
 	13) Cantidad de dinero liquidado promedio en clientes de la zona sur de Buenos Aires.
-	14) Ordenar Clientes por Alias y por cantidad de pagos liquidados.
+
 
 
 

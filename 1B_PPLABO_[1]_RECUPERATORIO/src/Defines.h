@@ -35,7 +35,7 @@
 
 // MIN Y MAX DE OPCIONES
 #define MIN_MENU 1
-#define MAX_MENU 13
+#define MAX_MENU 14
 #define MIN_ID_CLIENTE 1
 #define MAX_ID_CLIENTE 2147483647
 #define MIN_LOCALIDAD 1
