@@ -38,6 +38,8 @@
 #define MAX_MENU 14
 #define MIN_ID_CLIENTE 1
 #define MAX_ID_CLIENTE 2147483647
+#define MIN_KILOS 1
+#define MAX_KILOS 1000000
 #define MIN_LOCALIDAD 1
 #define MAX_LOCALIDAD 8
 #define MIN_CUIT 0
@@ -47,7 +49,7 @@
 #define A_LIQUIDAR 1
 #define LIQUIDADO 0
 #define LEN_PAGOS 1000
-#define PRECIO_KG_BASURA 35
+#define PRECIO_KG_PLASTICO 35
 #define IMPUESTOS 0.80
 
 #endif /* DEFINES_H_ */

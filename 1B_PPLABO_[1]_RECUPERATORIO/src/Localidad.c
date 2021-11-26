@@ -49,9 +49,9 @@ int localidad_mostrarLista(eLocalidad listaLocalidades[], int lenLocalidades)
 
 	if(listaLocalidades != NULL && lenLocalidades > 0)
 	{
-		printf("\n/***************************************");
-		printf("\n            LISTA LOCALIDADES         \n");
-		printf("\n    ID             Nombre\n");
+		printf("\n/*******************************************");
+		printf("\n             LISTA LOCALIDADES            \n");
+		printf("\n    ID             Nombre             Zona\n");
 		for (i= 0;i<lenLocalidades;i++)
 		{
 			if(listaLocalidades[i].isEmpty == OCUPADO)
@@ -60,7 +60,7 @@ int localidad_mostrarLista(eLocalidad listaLocalidades[], int lenLocalidades)
 				retorno = FUNCIONO;
 			}
 		}
-		printf("\n***************************************/\n");
+		printf("\n*******************************************/\n");
 	}
 
 	return retorno;
@@ -68,6 +68,7 @@ int localidad_mostrarLista(eLocalidad listaLocalidades[], int lenLocalidades)
 
 void localidad_mostrarUna(eLocalidad unaLocalidad)
 {
-	printf("%5d           %10s\n",unaLocalidad.idLocalidad
-								 ,unaLocalidad.nombreLocalidad);
+	printf("%5d           %10s          %7s\n",unaLocalidad.idLocalidad
+								 	 	 	  ,unaLocalidad.nombreLocalidad
+											  ,unaLocalidad.zona);
 }

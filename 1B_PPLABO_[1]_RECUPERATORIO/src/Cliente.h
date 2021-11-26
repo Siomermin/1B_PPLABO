@@ -17,6 +17,7 @@ typedef struct
 	char direccion[LEN_CADENA];
 	int idCliente;
 	int idLocalidad;
+	int contadorPendientes;
 	int isEmpty;
 	/*.......*/
 }eCliente;
@@ -110,6 +111,7 @@ int cliente_BuscarLocalidad(eCliente unCliente, eLocalidad listaLocalidades[], i
 /// \param unCliente eCliente un cliente.
 /// \param unaLocalidad eLocalidad una localidad.
 void cliente_mostrarUno(eCliente unCliente, eLocalidad unaLocalidad);
+
 
 
 #endif /* CLIENTE_H_ */

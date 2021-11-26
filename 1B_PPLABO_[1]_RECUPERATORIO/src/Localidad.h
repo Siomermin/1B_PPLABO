@@ -26,6 +26,7 @@ typedef struct
 	int idLocalidad;
 	char nombreLocalidad[LEN_CADENA];
 	int isEmpty;
+	char zona[LEN_CADENA];
 }eLocalidad;
 
 /// \fn int localidad_inicializar(eLocalidad[], int)

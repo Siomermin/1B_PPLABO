@@ -8,7 +8,6 @@
 #ifndef PEDIDO_H_
 #define PEDIDO_H_
 #include "Cliente.h"
-//#include "Informes.h"
 #include "Pago.h"
 
 typedef struct
@@ -18,7 +17,7 @@ typedef struct
 	float HDPE;
 	float LDPE;
 	float PP;
-	float kilosBasura;
+	float kilosPlastico;
 	int estado;
 	int isEmpty;
 
@@ -75,6 +74,15 @@ int pedido_buscarPorId(ePedido listaPedidos[], int lenPedidos, int auxId, int* r
 /// \return ERROR(-1) si hubo un error o FUNCIONO(0) si todo estuvo bien.
 int pedido_procesarResiduos(ePedido listaPedidos[], int lenPedidos, eCliente listaClientes[], int lenClientes, ePago listaPagos[], int lenPagos);
 
+/// \fn int pedido_pedirTiposDePlastico(ePedido[], int, ePago[], int)
+/// \brief Pide al usuario que complete los campos de los tipos de basura que va a recolectar y calcula cuanto se le debe pagar al cliente.
+/// \param listaPedidos ePedido array de pedidos.
+/// \param index int indice del pedido a modificar.
+/// \param listaPagos ePago array de pagos.
+/// \param indexPagos indice del pago a calcular.
+/// \return
+int pedido_pedirTiposDePlastico(ePedido listaPedidos[], int index, ePago listaPagos[], int indexPagos);
+
 /// \fn int pedido_imprimirPendientes(ePedido[], int, eCliente[], int, ePago[], int)
 /// \brief Recorre la lista de clientes y llama a la funcion "pedido_buscarYMostrarPendientes" que relaciona el cliente con su pedido y lo muestra.
 /// \param listaPedidos ePedido array de pedidos.
@@ -106,24 +114,4 @@ int pedido_buscarYMostrarPendientes(ePedido listaPedidos[], int lenPedidos, eCli
 /// \return ERROR(-1) si hubo un error o FUNCIONO(0) si todo estuvo bien.
 int pedido_buscarPagoPorEstado(ePedido unPedido, ePago listaPagos[], int lenPagos, int estadoPago, int* refIndexPago);
 
-/// \fn int pedido_imprimirProcesados(ePedido[], int, eCliente[], int, ePago[], int)
-/// \brief Recorre la lista de clientes y llama a la funcion "pedido_buscarYMostrarProcesados" que relaciona el cliente con su pedido y lo muestra.
-/// \param listaPedidos ePedido array de pedidos
-/// \param lenPedidos int tamaño del array de pedidos
-/// \param listaClientes eCliente array de clientes.
-/// \param lenClientes int tamaño del array de clientes.
-/// \param listaPagos ePago array de pagos.
-/// \param lenPagos int tamaño del array de pagos.
-/// \return ERROR(-1) si hubo un error o FUNCIONO(0) si todo estuvo bien.
-int pedido_imprimirProcesados(ePedido listaPedidos[], int lenPedidos, eCliente listaClientes[], int lenClientes, ePago listaPagos[], int lenPagos);
-
-/// \fn int pedido_buscarYMostrarProcesados(ePedido[], int, eCliente, ePago[], int)
-/// \brief Recorre la lista de pedidos y si se relaciona con el cliente que llega por parametro y es de estado PROCESADO, se imprime por pantalla.
-/// \param listaPedidos ePedido array de pedidos
-/// \param lenPedidos int tamaño del array de pedidos
-/// \param unCliente eCliente un cliente.
-/// \param listaPagos ePago array de pagos.
-/// \param lenPagos int tamaño del array de pagos.
-/// \return ERROR(-1) si hubo un error o FUNCIONO(0) si todo estuvo bien.
-int pedido_buscarYMostrarProcesados(ePedido listaPedidos[], int lenPedidos, eCliente unCliente, ePago listaPagos[], int lenPagos);
 #endif /* PEDIDO_H_ */

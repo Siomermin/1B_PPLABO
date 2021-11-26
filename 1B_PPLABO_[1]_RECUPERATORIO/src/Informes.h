@@ -11,6 +11,27 @@
 #include "Pedido.h"
 //#include "localidad.h"
 
+/// \fn int pedido_imprimirProcesados(ePedido[], int, eCliente[], int, ePago[], int)
+/// \brief Recorre la lista de clientes y llama a la funcion "pedido_buscarYMostrarProcesados" que relaciona el cliente con su pedido y lo muestra.
+/// \param listaPedidos ePedido array de pedidos
+/// \param lenPedidos int tamaño del array de pedidos
+/// \param listaClientes eCliente array de clientes.
+/// \param lenClientes int tamaño del array de clientes.
+/// \param listaPagos ePago array de pagos.
+/// \param lenPagos int tamaño del array de pagos.
+/// \return ERROR(-1) si hubo un error o FUNCIONO(0) si todo estuvo bien.
+int pedido_imprimirProcesados(ePedido listaPedidos[], int lenPedidos, eCliente listaClientes[], int lenClientes, ePago listaPagos[], int lenPagos);
+
+/// \fn int pedido_buscarYMostrarProcesados(ePedido[], int, eCliente, ePago[], int)
+/// \brief Recorre la lista de pedidos y si se relaciona con el cliente que llega por parametro y es de estado PROCESADO, se imprime por pantalla.
+/// \param listaPedidos ePedido array de pedidos
+/// \param lenPedidos int tamaño del array de pedidos
+/// \param unCliente eCliente un cliente.
+/// \param listaPagos ePago array de pagos.
+/// \param lenPagos int tamaño del array de pagos.
+/// \return ERROR(-1) si hubo un error o FUNCIONO(0) si todo estuvo bien.
+int pedido_buscarYMostrarProcesados(ePedido listaPedidos[], int lenPedidos, eCliente unCliente, ePago listaPagos[], int lenPagos);
+
 /// \fn int informe_pedidosPendientePorLocalidad(ePedido[], int, eCliente[], int, eLocalidad[], int)
 /// \brief Muestra la lista de las localidades y usuario elije una por su ID, luego recorre el array de clientes para asociar esta localidad que con el cliente corrrespondiente,
 ///        si es asi, llama a la funcion "contador_porEstado" que recorre el array de pedidos y cuenta la cantidad de pedidos en estado PENDIENTE.

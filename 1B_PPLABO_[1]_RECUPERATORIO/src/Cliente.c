@@ -16,6 +16,7 @@ int cliente_inicializar(eCliente listaClientes[], int lenClientes)
 		for(i=0;i<lenClientes;i++)
 		{
 			listaClientes[i].isEmpty = LIBRE;
+			listaClientes[i].contadorPendientes = 0;
 			retorno = FUNCIONO;
 		}
 	}
@@ -67,6 +68,10 @@ int cliente_alta(eCliente listaClientes[], int lenClientes, int* refId, eLocalid
 		}
 	}
 	*refId = listaClientes[index].idCliente + 1;
+	if(retorno == FUNCIONO)
+	{
+		printf("Se dio de alta satisfactoriamente con el ID = %d", listaClientes[index].idCliente);
+	}
 	return retorno;
 }
 
@@ -188,9 +193,9 @@ int cliente_mostrarListado(eCliente listaClientes[], int lenClientes, eLocalidad
 
     if(listaClientes != NULL && lenClientes > 0 && listaLocalidades != NULL && lenLocalidades > 0)
     {
-    	printf("\n/******************************************************************");
-    	printf("\n                  LISTA DE CLIENTES                           \n");
-    	printf("ID    Nombre Empresa      Cuit     \tDireccion      Localidad\t\n");
+    	printf("\n/**************************************************************************************");
+    	printf("\n                                LISTA DE CLIENTES                                    \n");
+    	printf("ID    Nombre Empresa      Cuit     \tDireccion         Localidad      Pedidos Pendientes\t\n");
 
     	for(i=0;i<lenClientes;i++)
     	{
@@ -203,7 +208,7 @@ int cliente_mostrarListado(eCliente listaClientes[], int lenClientes, eLocalidad
     			}
     		}
     	}
-    	printf("\n*******************************************************************/");
+    	printf("\n**************************************************************************************/");
     }
     return retorno;
 }
@@ -230,11 +235,11 @@ int cliente_BuscarLocalidad(eCliente unCliente, eLocalidad listaLocalidades[], i
 
 void cliente_mostrarUno(eCliente unCliente, eLocalidad unaLocalidad)
 {
-	printf("%d         %5s         %5d      %10s        %9s\n",
-			                              	  	  	  	  	  	  	  	  	  	  	  	  unCliente.idCliente,
-																						  unCliente.nombreEmpresa,
-																						  unCliente.cuit,
-																						  unCliente.direccion,
-																						  unaLocalidad.nombreLocalidad);
+	printf("%d         %-5s     \t  %d      %-10s        %10s        %8d\n",
+			                              	  	  	  	  	  	  	  	  unCliente.idCliente,
+																		  unCliente.nombreEmpresa,
+																		  unCliente.cuit,
+																		  unCliente.direccion,
+																		  unaLocalidad.nombreLocalidad,
+																		  unCliente.contadorPendientes);
 }
-

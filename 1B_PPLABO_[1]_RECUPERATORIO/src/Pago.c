@@ -44,7 +44,7 @@ int pago_buscarLibre(ePago listaPagos[], int lenPagos, int* refIndex)
 	return retorno;
 }
 
-int pago_alta(ePago listaPagos[], int lenPagos, int auxIdPedido, float auxKilosBasura, int auxIdPago)
+int pago_alta(ePago listaPagos[], int lenPagos, int auxIdPedido, float auxkilosPlastico, int auxIdPago)
 {
 	int retorno = ERROR;
 	int indexPago;
@@ -55,7 +55,7 @@ int pago_alta(ePago listaPagos[], int lenPagos, int auxIdPedido, float auxKilosB
 		{
 			listaPagos[indexPago].idPago = auxIdPago;
 			listaPagos[indexPago].idPedido = auxIdPedido;
-			listaPagos[indexPago].totalDinero = auxKilosBasura * PRECIO_KG_BASURA;
+			listaPagos[indexPago].totalDinero = auxkilosPlastico * PRECIO_KG_PLASTICO;
 			listaPagos[indexPago].estado = A_LIQUIDAR;
 			listaPagos[indexPago].isEmpty = OCUPADO;
 			retorno = FUNCIONO;

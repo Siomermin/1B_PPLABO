@@ -241,7 +241,14 @@ int IsChar(char* refAux)
             {
                 break;
             }
-
+          /*  else
+            {
+            	if((*(refAux + i) != '\0' && (*(refAux + i) != '\n')))
+            	{
+            		break;
+            	}
+            }
+*/
             i++;
 
         }while(i < strlen(refAux));

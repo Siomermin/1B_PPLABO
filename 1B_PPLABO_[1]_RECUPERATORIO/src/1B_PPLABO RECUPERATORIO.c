@@ -33,9 +33,6 @@
 
 	13) Cantidad de dinero liquidado promedio en clientes de la zona sur de Buenos Aires.
 
-
-
-
 	******************************************************************************************************************************************************
  */
 
@@ -54,8 +51,6 @@ int auxIdPagos = 1;
 int flagAlta = 0; //  CAMBIAR A 0 SI NO ESTAN HARDCODEADOS LOS DATOS.
 int flagPedido = 0;
 int flagProcesados = 0;
-
-
 
 eCliente listaClientes[LEN_CLIENTES];/* = {
 		{"Fermin",231234,"Miraflores",1,1,OCUPADO},
@@ -77,14 +72,14 @@ ePedido listaPedidos[LEN_PEDIDOS]; /* = {
 pedido_inicializar(listaPedidos, LEN_PEDIDOS);
 
 eLocalidad listaLocalidades[LEN_LOCALIDADES]={
-			{1,"Avellaneda",OCUPADO}, // Zona sur
-			{2,"Lanus",OCUPADO},	// Zona sur
-			{3,"Quilmes",OCUPADO},	// Zona sur
-			{4,"San Isidro",OCUPADO},
-			{5,"La Matanza",OCUPADO},
-			{6,"San Vicente",OCUPADO},
-			{7,"Tigre",OCUPADO},
-			{8,"La Plata",OCUPADO}
+			{1,"Avellaneda",OCUPADO,"Sur"},
+			{2,"Lanus",OCUPADO,"Sur"},
+			{3,"Quilmes",OCUPADO,"Sur"},
+			{4,"San Isidro",OCUPADO,"Norte"},
+			{5,"La Matanza",OCUPADO,"Oeste"},
+			{6,"Merlo",OCUPADO, "Oeste"},
+			{7,"Tigre",OCUPADO,"Norte"},
+			{8,"Pilar",OCUPADO,"Norte"}
 };
 //localidad_inicializar(listaLocalidades, LEN_LOCALIDADES);
 
@@ -97,14 +92,13 @@ pago_inicializar(listaPagos, LEN_PAGOS);
 		switch(opcion)
 		{
 		case 1:
-			if(cliente_alta(listaClientes, LEN_CLIENTES, &auxIdCliente, listaLocalidades, LEN_LOCALIDADES) == FUNCIONO) // BIEN
+			if(cliente_alta(listaClientes, LEN_CLIENTES, &auxIdCliente, listaLocalidades, LEN_LOCALIDADES) == ERROR) // BIEN
 			{
-				printf("Se dio de alta el cliente satisfactoriamente!\n");
-				flagAlta = 1;
+				printf("No fue posible dar de alta el cliente!\n");
 			}
 			else
 			{
-				printf("No fue posible dar de alta el cliente!\n");
+				flagAlta = 1;
 			}
 			break;
 		case 2:

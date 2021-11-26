@@ -7,6 +7,59 @@
 
 #include "Informes.h"
 
+int pedido_imprimirProcesados(ePedido listaPedidos[], int lenPedidos, eCliente listaClientes[], int lenClientes, ePago listaPagos[], int lenPagos)
+{
+	int retorno = ERROR;
+	int i;
+
+	if(listaPedidos != NULL && lenPedidos > 0 && listaClientes != NULL && lenClientes > 0)
+	{
+		printf("\n/**********************************************************************************************************************************************");
+	    printf("\n          						             LISTA DE PEDIDOS PROCESADOS                                                                    \n");
+		printf("ID    Cuit Cliente     Direccion Cliente     \t Kilos HDPE      Kilos LDPE      Kilos PP      Total Acreditado      Nombre Empresa  	  Alias \n");
+		for(i=0;i<lenClientes;i++)
+		{
+			if(listaClientes[i].isEmpty == OCUPADO && pedido_buscarYMostrarProcesados(listaPedidos, lenPedidos, listaClientes[i], listaPagos, lenPagos) == FUNCIONO)
+			{
+				retorno = FUNCIONO;
+			}
+		}
+		printf("\n**********************************************************************************************************************************************/\n");
+	}
+	return retorno;
+}
+
+int pedido_buscarYMostrarProcesados(ePedido listaPedidos[], int lenPedidos, eCliente unCliente, ePago listaPagos[], int lenPagos)
+{
+	int retorno = ERROR;
+	int i;
+	int indexPago;
+
+	if(listaPedidos != NULL && lenPedidos > 0 && listaPagos != NULL && lenPagos > 0)
+	{
+		for(i=0;i<lenPedidos;i++)
+		{
+			if(listaPedidos[i].idCliente == unCliente.idCliente && listaPedidos[i].estado == PROCESADO)
+			{
+				if(pedido_buscarPagoPorEstado(listaPedidos[i], listaPagos, lenPagos, LIQUIDADO, &indexPago) == FUNCIONO)
+				{
+						printf("%d  %10d \t\t%13s %18.2f 	%5.2f 	\t %5.2f  \t $%2.2f 	\t %6s  \t %5s\n", listaPedidos[i].idPedido,
+																							       	   	   	   unCliente.cuit,
+																											   unCliente.direccion,
+																											   listaPedidos[i].HDPE,
+																											   listaPedidos[i].LDPE,
+																											   listaPedidos[i].PP,
+																											   listaPagos[indexPago].totalDinero,
+																											   unCliente.nombreEmpresa,
+																											   listaPagos[indexPago].alias);
+						retorno = FUNCIONO;
+				}
+			}
+		}
+	}
+	return retorno;
+}
+
 int informe_pedidosPendientePorLocalidad(ePedido listaPedidos[], int lenPedidos, eCliente listaClientes[], int lenClientes, eLocalidad listaLocalidades[], int lenLocalidades)
 {
 	int retorno = ERROR;
@@ -33,7 +86,7 @@ int informe_pedidosPendientePorLocalidad(ePedido listaPedidos[], int lenPedidos,
 			}
 		}
 	}
-	if(contadorPedidos > 0)
+	if(contadorPedidos > 0 && retorno == FUNCIONO)
 	{
 		printf("La cantidad de pedidos pendientes en %s es: %d\n",listaLocalidades[indexLocalidad].nombreLocalidad, contadorPedidos);
 	}
@@ -45,25 +98,23 @@ int informe_promedioKilosPolipropeno(ePedido listaPedidos[], int lenPedidos, eCl
 {
 	int retorno = ERROR;
 	int i;
-	int auxIdCliente;
-	int indexCliente;
+	int j;
 	int contadorPedidos = 0;
 	float promedioPP;
 	float acumuladorPP = 0;
 
 	if(listaPedidos != NULL && lenPedidos > 0 && listaClientes != NULL && lenClientes)
 	{
-		if(pedido_imprimirProcesados(listaPedidos, lenPedidos, listaClientes, lenClientes, listaPagos, lenPagos) == FUNCIONO &&
-		   Utn_GetInt(&auxIdCliente, "\nIngrese el ID del cliente a calcular promedio: ", MENSAJE_ERROR, MIN_ID_CLIENTE, MAX_ID_CLIENTE, REINTENTOS) == FUNCIONO)
+		for(i=0;i<lenClientes;i++)
 		{
-			if(cliente_buscarPorId(listaClientes, lenClientes, auxIdCliente, &indexCliente) == FUNCIONO)
+			if(listaClientes[i].isEmpty == OCUPADO)
 			{
-				for(i=0;i<lenPedidos;i++)
+				for(j=0;j<lenPedidos;j++)
 				{
-					if(listaPedidos[i].isEmpty == OCUPADO && listaPedidos[i].estado == PROCESADO && listaPedidos[i].idCliente == listaClientes[indexCliente].idCliente)
+					if(listaPedidos[j].isEmpty == OCUPADO && listaPedidos[j].estado == PROCESADO && listaPedidos[j].idCliente == listaClientes[i].idCliente)
 					{
 						contadorPedidos++;
-						acumuladorPP += listaPedidos[i].PP;
+						acumuladorPP += listaPedidos[j].PP;
 					}
 				}
 			}
@@ -72,7 +123,7 @@ int informe_promedioKilosPolipropeno(ePedido listaPedidos[], int lenPedidos, eCl
 	if(contadorPedidos > 0)
 	{
 		promedioPP = acumuladorPP / contadorPedidos;
-		printf("El cliente %s , reciclo %2.f kilos de PP en promedio!",listaClientes[indexCliente].nombreEmpresa, promedioPP);
+		printf("Los clientes reciclaron: %2.2f kilos de PP en promedio!", promedioPP);
 		retorno = FUNCIONO;
 	}
 	return retorno;
@@ -90,9 +141,9 @@ int informe_clienteMasPedidosPendientes(eCliente listaClientes[], int lenCliente
 	{
 		if(maximo_clienteMasPedidosPorEstado(listaClientes, lenClientes, listaPedidos, lenPedidos, PENDIENTE, &cantidadMaxPendientes) == FUNCIONO)
 		{
-			printf("\n/**************************************************************");
-			printf("\n           LISTA DE CLIENTES CON MAS PEDIDOS PENDIENTES      \n");
-			printf("ID    Nombre Empresa      Cuit     \tDireccion      Localidad\t\n");
+			printf("\n/**************************************************************************************");
+			printf("\n                      LISTA DE CLIENTES CON MAS PEDIDOS PENDIENTES                   \n");
+			printf("ID    Nombre Empresa      Cuit     \tDireccion      Localidad      Pedidos Pendientes\t\n");
 			for(i=0;i<lenClientes;i++)
 			{
 				if(listaClientes[i].isEmpty == OCUPADO)
@@ -113,7 +164,7 @@ int informe_clienteMasPedidosPendientes(eCliente listaClientes[], int lenCliente
 					}
 				}
 			}
-			printf("\n***********************************************************/\n");
+			printf("\n**************************************************************************************/\n");
 		}
 	}
 	return retorno;
@@ -181,9 +232,9 @@ int informe_clienteMasPedidosProcesados(eCliente listaClientes[], int lenCliente
 	{
 		if(maximo_clienteMasPedidosPorEstado(listaClientes, lenClientes, listaPedidos, lenPedidos, PROCESADO, &cantidadMaxProcesados) == FUNCIONO)
 		{
-			printf("\n/**************************************************************");
-			printf("\n           LISTA DE CLIENTES CON MAS PEDIDOS PROCESADOS      \n");
-			printf("ID    Nombre Empresa      Cuit     \tDireccion      Localidad\t\n");
+			printf("\n/**************************************************************************************");
+			printf("\n                   LISTA DE CLIENTES CON MAS PEDIDOS PROCESADOS                      \n");
+			printf("ID    Nombre Empresa      Cuit     \tDireccion      Localidad      Pedidos Pendientes\t\n");
 			for(i=0;i<lenClientes;i++)
 			{
 				if(listaClientes[i].isEmpty == OCUPADO)
@@ -204,7 +255,7 @@ int informe_clienteMasPedidosProcesados(eCliente listaClientes[], int lenCliente
 					}
 				}
 			}
-			printf("\n***********************************************************/\n");
+			printf("\n**************************************************************************************/\n");
 		}
 	}
 	return retorno;
@@ -243,7 +294,7 @@ int promedio_pagosLiquidadosZonaSur(eCliente listaClientes[], int lenClientes, e
 	if(contadorLocalidades > 0)
 	{
 		promedio = acumuladorDineroLiquidado / contadorLocalidades;
-		printf("El promedio de pagos liquidados en zona sur es : $%2.f",promedio);
+		printf("El promedio de pagos liquidados en zona sur es : $%2.2f",promedio);
 	}
 	return retorno;
 }
@@ -259,7 +310,7 @@ int informe_contadorClienteEnZonaSur(eLocalidad listaLocalidades[], int lenLocal
 		{
 			if(listaLocalidades[i].isEmpty == OCUPADO && listaLocalidades[i].idLocalidad == unCliente.idLocalidad)
 			{
-				if(strcmp(listaLocalidades[i].nombreLocalidad,"Avellaneda") == 0 || strcmp(listaLocalidades[i].nombreLocalidad,"Lanus") == 0 || strcmp(listaLocalidades[i].nombreLocalidad,"Quilmes") == 0)
+				if(strcmp(listaLocalidades[i].zona,"Sur") == 0)
 				{
 					(*contadorLocalidades)++;
 					retorno = FUNCIONO;
